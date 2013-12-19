@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name                Sortable Time in Audiable Wishlist
+// @name                Sortable Time in Audible Wishlist
 // @description         Adds a time column to each page of the Audible Wishlist.
 // @version             1.0
 // @author              Michael Sergio <mikeserg@gmail.com>
-// @namespace           https://github.com/michaelsergio/Sortable-Time-in-Audiable-Wishlist
+// @namespace           https://github.com/michaelsergio/Sortable-Time-in-Audible-Wishlist
 // @include             /http://www.audible.com/wl*/
 // @grant               none
 // @icon                http://www.audible.com/favicon.ico
