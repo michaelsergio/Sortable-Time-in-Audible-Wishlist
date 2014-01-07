@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                Sortable Time in Audible Wishlist
 // @description         Adds a time column to each page of the Audible Wishlist.
-// @version             1.0.1
+// @version             1.0.2
 // @author              Michael Sergio <mikeserg@gmail.com>
 // @namespace           https://github.com/michaelsergio/Sortable-Time-in-Audible-Wishlist
 // @include             /http://www.audible.com/wl*/
@@ -49,6 +49,9 @@
         });
         for (i = 0; i < tr.length; i += 1) {
             // append each row in order
+            // 0 is the header, so the odd numbered rows are 'even'
+            if (i % 2 == 1) tr[i].classList.add("adbl-even");
+            else tr[i].classList.remove("adbl-even");
             tb.appendChild(tr[i]);
         }
     }

@@ -1,6 +1,6 @@
 {
      "name": "Sortable Time in Audible Wishlist",
-     "version": "1.0.1",
+     "version": "1.0.2",
      "manifest_version": 2,
      "description": "Adds a time column to each page of the Audible Wishlist.",
      "author": "Michael Sergio <mikeserg@gmail.com>",
