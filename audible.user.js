@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                Sortable Time in Audible Wishlist
 // @description         Adds a time column to each page of the Audible Wishlist.
-// @version             1.0.2
+// @version             1.0.3
 // @author              Michael Sergio <mikeserg@gmail.com>
 // @namespace           https://github.com/michaelsergio/Sortable-Time-in-Audible-Wishlist
 // @include             /http://www.audible.com/wl*/
@@ -42,6 +42,7 @@
             i;
         reverse = -((+reverse) || -1);
         tr = tr.sort(function (a, b) { // sort rows
+            if (!a.cells[col]) { return -1; }
             if (a.cells[col].textContent === HEADER_NAME) { return -1; }
             return reverse // `-1 *` if want opposite order
                 * timeTextComparator(a.cells[col].textContent.trim(),
@@ -92,10 +93,16 @@
 
                 xhr = new XMLHttpRequest();
                 xhr.onload = function() {
+                    var runtimeValue = "";
                     console.log("loaded " + url);
                     cell = this.theRow.insertCell(-1);
                     cell.className = 'adbl-col-7';
-                    cell.innerHTML = this.responseXML.getElementsByClassName('adbl-run-time')[0].textContent;
+
+                    var runtime = this.responseXML.getElementsByClassName('adbl-run-time');
+                    if (runtime && runtime[0]) {
+                      runtimeValue = runtime[0].textContent;
+                    }
+                    cell.innerHTML = runtimeValue;
                 };
                 xhr.onerror = function() {
                     var message = "error loading " + url;
