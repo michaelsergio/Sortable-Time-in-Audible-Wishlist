@@ -15,20 +15,20 @@
 (function() {
     "use strict";
 
-    var HEADER_NAME = "Time",
+    let HEADER_NAME = "Time",
         EXT_NAME = "adbl-ext-time",
         COL_NUM = 7,
         sortDesc = false;
 
     function timeMakeInt(a) {
-        var ahr, amin;
+        let ahr, amin;
         ahr = (a.match(/(\d+) hr/) || 0)[1] || 0;
         amin = (a.match(/(\d+) min/) || 0)[1] || 0;
         return parseInt(ahr, 10) + parseInt(amin, 10) * 0.01; // Number should have float place in range .0 - .59
     }
 
     function timeTextComparator(a, b) {
-        var aNum = timeMakeInt(a),
+        let aNum = timeMakeInt(a),
             bNum = timeMakeInt(b);
 
         if (aNum === bNum) { return 0; }
@@ -37,7 +37,7 @@
     }
 
     function sortTable(table, col, reverse) {
-        var tb = table.tBodies[0], // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+        let tb = table.tBodies[0], // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
             tr = Array.prototype.slice.call(tb.rows, 0), // put rows into array
             i;
         reverse = -((+reverse) || -1);
@@ -58,7 +58,7 @@
     }
 
     function audibleParse() {
-        var wishlist = document.getElementsByTagName("table")[1],
+        let wishlist = document.getElementsByTagName("table")[1],
             all_rows = wishlist.getElementsByTagName('tr'),
             length = all_rows.length,
             i,
@@ -93,21 +93,21 @@
 
                 xhr = new XMLHttpRequest();
                 xhr.onload = function() {
-                    var runtimeValue = "";
+                    let runtimeValue = "";
                     console.log("loaded " + url);
                     cell = this.theRow.insertCell(-1);
                     cell.className = 'adbl-col-7';
 
-                    var runtime = this.responseXML.getElementsByClassName('adbl-run-time');
+                    let runtime = this.responseXML.getElementsByClassName('adbl-run-time');
                     if (runtime && runtime[0]) {
                       runtimeValue = runtime[0].textContent;
                     }
                     cell.innerHTML = runtimeValue;
                 };
                 xhr.onerror = function() {
-                    var message = "error loading " + url;
+                    let message = "error loading " + url;
                     console.log(message);
-                    //var elem = document.getElementById('mast-member-acct');
+                    //let elem = document.getElementById('mast-member-acct');
                     //elem.innerHTML = message;
                 };
                 
