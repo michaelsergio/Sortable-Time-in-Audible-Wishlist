@@ -42,7 +42,7 @@
             i;
         reverse = -((+reverse) || -1);
         tr = tr.sort(function (a, b) { // sort rows
-            if (!a.cells[col]) { return -1; }
+            if (!a.cells[col] || !b.cells[col]) { return -1; }
             if (a.cells[col].textContent === HEADER_NAME) { return -1; }
             return reverse // `-1 *` if want opposite order
                 * timeTextComparator(a.cells[col].textContent.trim(),
