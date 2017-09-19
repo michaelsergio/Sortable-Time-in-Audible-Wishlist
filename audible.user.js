@@ -20,45 +20,7 @@
   const COL_NUM = 7;
 
 
-  function timeMakeInt(a) {
-    let ahr, amin;
-    ahr = (a.match(/(\d+) hr/) || 0)[1] || 0;
-    amin = (a.match(/(\d+) min/) || 0)[1] || 0;
-    // Number should have float place in range .0 - .59
-    return parseInt(ahr, 10) + parseInt(amin, 10) * 0.01;
-  }
 
-  function timeTextComparator(a, b) {
-    let aNum = timeMakeInt(a),
-      bNum = timeMakeInt(b);
-    if (aNum === bNum) { return 0; }
-    return aNum < bNum ? -1 : 1;
-  }
-
-  function sortTable(table, col, reverse) {
-    const tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
-    let tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
-    reverse = -((+reverse) || -1);
-    tr = tr.sort(function (a, b) { // sort rows
-      if (!a.cells[col] || !b.cells[col]) { return -1; }
-      if (a.cells[col].textContent === HEADER_NAME) { return -1; }
-      return reverse * // `-1 *` if want opposite order
-          timeTextComparator(a.cells[col].textContent.trim(),
-          b.cells[col].textContent.trim());
-    });
-    let isEven = true;
-    for (let row of tr) {
-      // append each row in order
-      // 0 is the header, so the odd numbered rows are 'even'
-      if (isEven) {
-        row.classList.add('adbl-even');
-      } else {
-        row.classList.remove('adbl-even');
-      }
-      tb.appendChild(row);
-      isEven = !isEven;
-    }
-  }
 
   class TimeRepository {
     constructor() {
@@ -72,9 +34,10 @@
         this.storage.getTime(url).then((keys) => {
           const time = keys[url];
           if (time !== undefined) {
-            console.log("Got time from cache");
+            console.log('Got time from cache');
             resolve(time);
           } else {
+            console.log('Making request for ' + url);
             this.audible.requestBookTime(url).then( (time) => {
               this.storage.putTime(url, time); // Cache entry for later
               resolve(time);
@@ -127,7 +90,6 @@
 
     // This must return a promise
     requestBookTime(url) {
-      console.log("Making xhr for " + url);
       return new Promise( (resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
@@ -158,16 +120,54 @@
     }
 
     createTimeColumnInHeaderRow(row) {
-      console.log('creating time');
       const header = document.createElement('th');
       header.innerHTML = `<a class="adbl-link" href="#!">${HEADER_NAME}</a>`;
       header.id = EXT_NAME;
       header.onclick = function() {
-        sortTable(this.wishlist, COL_NUM, this.sortDesc);
+        this.sortTable(this.wishlist, COL_NUM, this.sortDesc);
         this.sortDesc = !this.sortDesc;
         return false;
       }.bind(this);
       row.appendChild(header);
+    }
+
+    timeMakeInt(a) {
+      const ahr = (a.match(/(\d+) hr/) || 0)[1] || 0;
+      const amin = (a.match(/(\d+) min/) || 0)[1] || 0;
+      // Number should have float place in range .0 - .59
+      return parseInt(ahr, 10) + parseInt(amin, 10) * 0.01;
+    }
+
+    timeTextComparator(a, b) {
+      const aNum = this.timeMakeInt(a);
+      const bNum = this.timeMakeInt(b);
+      if (aNum === bNum) { return 0; }
+      return aNum < bNum ? -1 : 1;
+    }
+
+    sortTable(table, col, reverse) {
+      const tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+      let tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+      reverse = -((+reverse) || -1);
+      tr = tr.sort(function (a, b) { // sort rows
+        if (!a.cells[col] || !b.cells[col]) { return -1; }
+        if (a.cells[col].textContent === HEADER_NAME) { return -1; }
+        return reverse * // `-1 *` if want opposite order
+          this.timeTextComparator(a.cells[col].textContent.trim(),
+            b.cells[col].textContent.trim());
+      }.bind(this));
+      let isEven = true;
+      for (let row of tr) {
+        // append each row in order
+        // 0 is the header, so the odd numbered rows are 'even'
+        if (isEven) {
+          row.classList.add('adbl-even');
+        } else {
+          row.classList.remove('adbl-even');
+        }
+        tb.appendChild(row);
+        isEven = !isEven;
+      }
     }
 
     getUrlForLinkDiv(linkDiv) {
