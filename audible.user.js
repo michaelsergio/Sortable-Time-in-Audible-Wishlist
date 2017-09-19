@@ -212,6 +212,5 @@
     vm.load();
   }
 
-  //window.addEventListener("load", audibleParse, false);
   audibleParse();
 })();
