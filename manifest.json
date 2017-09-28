@@ -1,6 +1,6 @@
 {
      "name": "Sortable Time in Audible Wishlist",
-     "version": "1.1.0",
+     "version": "1.2.0",
      "manifest_version": 2,
      "description": "Adds a time column to each page of the Audible Wishlist.",
      "author": "Michael Sergio <mikeserg@gmail.com>",
@@ -10,7 +10,7 @@
                 "128": "icon128.png" },
      "content_scripts": [{
          "js": ["audible.user.js"],
-         "matches": ["http://www.audible.com/wl*"]
+         "matches": ["http://www.audible.com/wl*", "https://www.audible.com/wl*"]
       }],
      "permissions": [
          "storage",
