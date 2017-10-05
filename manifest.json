@@ -10,11 +10,24 @@
                 "128": "icon128.png" },
      "content_scripts": [{
          "js": ["audible.user.js"],
-         "matches": ["http://www.audible.com/wl*", "https://www.audible.com/wl*"]
+         "matches": [
+           "*://www.audible.com/wl*",
+           "*://www.audible.co.uk/wl*",
+           "*://www.audible.de/wl*",
+           "*://www.audble.fr/wl*",
+           "*://www.audible.com.au/wl*",
+           "*://www.audible.it/wl*",
+           "*://www.audible.co.jp/wl*"
+         ]
       }],
      "permissions": [
          "storage",
-         "http://www.audible.com/*",
-         "https://www.audible.com/*"
+         "*://www.audible.com/*",
+         "*://www.audible.co.uk/wl*",
+         "*://www.audible.de/wl*",
+         "*://www.audble.fr/wl*",
+         "*://www.audible.com.au/wl*",
+         "*://www.audible.it/wl*",
+         "*://www.audible.co.jp/wl*"
       ]
 }
