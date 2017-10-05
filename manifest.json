@@ -1,5 +1,6 @@
 {
      "name": "Sortable Time in Audible Wishlist",
+     "short_name": "audible sort",
      "version": "1.2.0",
      "manifest_version": 2,
      "description": "Adds a time column to each page of the Audible Wishlist.",
